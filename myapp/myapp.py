@@ -25,14 +25,31 @@ def reg_blueprints(app):
         if bp:
             app.register_blueprint(bp)
 
+def create_manager(app):
+    from flaskext.script import Manager
+    manager = Manager(app)
+
+    # add commands for DB management
+    import database
+    manager.add_command("initdb", database.InitDB())
+    manager.add_command("dropdb", database.DropDB())
+
+    # TODO:
+    # Init commands from installed modules
+    #
+    # module/
+    # module/__init__.py
+    # module/commands/
+    # module/commands/__init__.py
+    # models/commands/mycommand.py
+
+    return manager
+
 app = create_app()
-db = connect_db(app)
+manager = create_manager(app)
+connect_db(app)
 initial_login_manager(app)
 reg_blueprints(app)
 
 if __name__ == '__main__':
-    if sys.argv[-1] == 'init_db':
-        print ">>> DB initialise"
-        db.create_all(app=app)
-    else:
-        app.run()
+    manager.run()
