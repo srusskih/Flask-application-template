@@ -4,7 +4,7 @@ from flask import Flask
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_pyfile('settings.py')
+    app.config.from_object('settings.Config')
     return app
 
 def connect_db(app):

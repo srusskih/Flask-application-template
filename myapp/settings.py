@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
-DEBUG = True
+class Applications(object):
+    INSTALLED_APPS = (
+        'accounts',
+        # ...
+    )
 
-SECRET_KEY = 'some_secret'
+class Config(Applications):
+    DEBUG = True
+    SECRET_KEY = 'some_secret'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite3'
 
-DATABASE = {
-    'name': '/db.sqlite3'
-    'engine' = 'sqlite://'
-}
-
-SQLALCHEMY_DATABASE_URI = DATABASE['engine']+DATABASE['name']
-
-INSTALLED_APPS = (
-    'accounts'
-    # ...
-)
