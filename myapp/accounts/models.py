@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from werkzeug import generate_password_hash, check_password_hash
-from flaskext.login import UserMixin
+from flask.ext.login import UserMixin
 
-from database import db
-from login_manager import login_manager
+from myapp import db, login_manager
 
 
 class Account(db.Model, UserMixin):
@@ -32,11 +31,9 @@ class Account(db.Model, UserMixin):
 
     def set_password(self, new_password):
         self.hash_password = generate_password_hash(new_password)
-        #self.hash_password = new_password
 
     def check_password(self, password):
         return check_password_hash(self.hash_password, password)
-        #return self.hash_password == password
 
 
 @login_manager.user_loader
